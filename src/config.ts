@@ -154,25 +154,16 @@ export default {
         '--disable-features=WebRtcLocalIpsAllowedUrls',
         '--disable-features=PrivacySandboxSettings4',
         '--disable-features=InterestCohortFeaturePolicy',
-        '--disable-dev-shm-usage',
-        '--disable-accelerated-2d-canvas',
-        '--disable-background-timer-throttling',
-        '--disable-renderer-backgrounding',
-        '--disable-backgrounding-occluded-windows',
-        '--disable-ipc-flooding-protection',
         '--enable-features=NetworkService,NetworkServiceLogging',
-        '--disable-features=Translate',
-        '--disable-component-extensions-with-background-pages',
         '--disable-features=VizDisplayCompositor',
-        '--disable-features=OutOfBlinkCors',
-        '--disable-blink-features=AutomationControlled'
+        '--disable-features=OutOfBlinkCors'
       ],
-      headless: true, // Temporal para debugging - cambiar a true después
+      headless: true,
       devtools: false,
       executablePath: '/usr/bin/google-chrome-stable',
       timeout: 0,
       protocolTimeout: 0,
-      slowMo: 100, // Reducir velocidad para estabilidad DOM
+      slowMo: 100,
       waitForInitialPage: true,
       defaultViewport: {
         width: 1366,
