@@ -1,6 +1,10 @@
 /* eslint-disable prettier/prettier */
-import { ServerOptions } from './types/ServerOptions';
+import { ServerOptions } from './src/types/ServerOptions';
 
+/**
+ * Configuración optimizada para Debian 13
+ * Resuelve el error: Protocol error (DOM.describeNode): Cannot find context with specified id
+ */
 export default {
   secretKey: 'THISISMYSECURETOKEN',
   host: 'http://localhost',
@@ -41,16 +45,24 @@ export default {
     daysToArchive: 45,
   },
   log: {
-    level: 'silly', // Before open a issue, change level to silly and retry a action
+    level: 'silly',
     logger: ['console', 'file'],
   },
   createOptions: {
     browserArgs: [
-      '--disable-web-security',
+      // Seguridad y sandbox
       '--no-sandbox',
       '--disable-setuid-sandbox',
       '--disable-web-security',
-      '--aggressive-cache-discard',
+      '--disable-features=VizDisplayCompositor',
+
+      // Memoria y rendimiento
+      '--disable-dev-shm-usage',
+      '--disable-gpu',
+      '--disable-software-rasterizer',
+      '--max_old_space_size=4096',
+
+      // Cache y red
       '--disable-cache',
       '--disable-application-cache',
       '--disable-offline-load-stale-cache',
@@ -59,26 +71,27 @@ export default {
       '--disable-background-timer-throttling',
       '--disable-backgrounding-occluded-windows',
       '--disable-renderer-backgrounding',
+
+      // Extensions y servicios
       '--disable-default-apps',
       '--disable-extensions',
       '--disable-sync',
-      '--disable-dev-shm-usage',
-      '--disable-gpu',
-      '--disable-software-rasterizer',
       '--disable-translate',
-      '--disable-features=VizDisplayCompositor',
-      '--disable-features=IsolateOrigins,site-per-process',
-      '--disable-blink-features=AutomationControlled',
+      '--disable-features=TranslateUI',
+
+      // UI y renderizado
       '--hide-scrollbars',
       '--metrics-recording-only',
       '--mute-audio',
       '--no-first-run',
-      '--no-zygote',
-      '--single-process',
       '--safebrowsing-disable-auto-update',
       '--ignore-certificate-errors',
       '--ignore-ssl-errors',
       '--ignore-certificate-errors-spki-list',
+      // eslint-disable-next-line prettier/prettier
+
+      // Estabilidad para Debian
+      '--disable-features=LeakyPeeker',
       '--disable-breakpad',
       '--disable-component-update',
       '--disable-print-preview',
@@ -88,6 +101,8 @@ export default {
       '--disable-client-side-phishing-detection',
       '--enable-simple-cache-backend',
       '--enable-tcp-fast-open',
+      '--enable-features=NetworkService,NetworkServiceLogging',
+      '--force-color-profile=srgb',
       '--disable-webgl',
       '--disable-threaded-scrolling',
       '--disable-smooth-scrolling',
@@ -95,74 +110,40 @@ export default {
       '--disable-canvas-aa',
       '--disable-2d-canvas-clip-aa',
       '--disable-gl-drawing-for-tests',
-      '--force-color-profile=srgb',
+      '--disable-web-security',
+      '--disable-features=IsolateOrigins,site-per-process',
+      '--disable-blink-features=AutomationControlled',
+      '--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
     ],
-    /**
-     * Example of configuring the linkPreview generator
-     * If you set this to 'null', it will use global servers; however, you have the option to define your own server
-     * Clone the repository https://github.com/wppconnect-team/wa-js-api-server and host it on your server with ssl
-     *
-     * Configure the attribute as follows:
-     * linkPreviewApiServers: [ 'https://www.yourserver.com/wa-js-api-server' ]
-     */
-    linkPreviewApiServers: null,
+    headless: true,
+    devtools: false,
+
+    // Opciones adicionales de espera
+    waitForLogin: true,
+    waitForPageLoad: true,
+
+    // Timeouts extendidos
+    defaultViewport: null,
+    slowMo: 50,
+    timeout: 0,
+
+    // Configuración de Puppeteer específica
     puppeteerOptions: {
       args: [
         '--no-sandbox',
         '--disable-setuid-sandbox',
         '--disable-dev-shm-usage',
-        '--disable-blink-features=AutomationControlled',
-        '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        '--window-size=1366,768',
-        '--disable-web-security',
-        '--disable-features=IsolateOrigins,site-per-process',
-        '--disable-background-timer-throttling',
-        '--disable-renderer-backgrounding',
-        '--disable-backgrounding-occluded-windows',
-        '--disable-ipc-flooding-protection',
-        '--disable-default-apps',
-        '--disable-sync',
-        '--disable-translate',
-        '--disable-extensions',
-        '--disable-component-extensions-with-background-pages',
-        '--disable-background-networking',
-        '--disable-client-side-phishing-detection',
-        '--disable-component-update',
-        '--force-webrtc-ip-handling-policy=default_public_interface_only',
-        '--disable-webgl',
-        '--disable-features=WebRtcHideLocalIpsWithMdns',
-        '--disable-features=WebRtcLocalIpsAllowedUrls',
-        '--disable-features=PrivacySandboxSettings4',
-        '--disable-features=InterestCohortFeaturePolicy',
+        '--disable-accelerated-2d-canvas',
+        '--no-first-run',
+        '--no-zygote',
+        '--single-process',
+        '--disable-gpu',
       ],
       headless: 'new' as const,
-      executablePath: '/usr/bin/google-chrome-stable',
-      timeout: 0,
-      protocolTimeout: 0,
-      slowMo: 50,
+      executablePath: '/usr/bin/google-chrome-stable', // Ruta específica para Debian
     },
-    multiDevice: true,
-    authTimeoutMs: 90000,
-    takeoverOnConflict: true,
-    takeoverTimeoutMs: 60000,
-    cacheEnabled: false,
-    disableWelcome: true,
-    updatesLog: false,
-    logLevel: 'error',
-    deviceName: 'Chrome Desktop',
-    poweredBy: 'WPPConnect',
-    autoClose: 0,
-    skipSavePostman: true,
-    skipBrokenMethodsCheck: true,
-    device: {
-      manufacturer: 'Google',
-      model: 'Chrome',
-      platform: 'Windows',
-      os_version: '10',
-      wa_version: '2.23.10.78',
-    },
-    waitForLogin: true,
-    waitForLoginTimeoutMs: 60000,
+
+    linkPreviewApiServers: null,
   },
   mapper: {
     enable: false,

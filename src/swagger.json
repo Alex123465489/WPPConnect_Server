@@ -63,7 +63,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "example": "NERDWHATS_AMERICA"
+              "example": "1"
             }
           },
           {
@@ -318,7 +318,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "example": "NERDWHATS_AMERICA"
+              "example": "1"
             }
           }
         ],
@@ -349,7 +349,14 @@
               },
               "example": {
                 "webhook": "",
-                "waitQrCode": false
+                "waitQrCode": true,
+                "chatWoot": {
+                  "enable": true,
+                  "baseURL": "https://chat.crunch-up.store",
+                  "token": "WPmqkWXvA8BLipZWoa3PW8b7",
+                  "inbox_id": "9",
+                  "account_id": "1"
+                }
               }
             }
           }
