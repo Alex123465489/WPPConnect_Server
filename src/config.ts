@@ -96,6 +96,26 @@ export default {
       '--disable-2d-canvas-clip-aa',
       '--disable-gl-drawing-for-tests',
       '--force-color-profile=srgb',
+      // Args específicos para estabilidad DOM y fix de ProtocolError
+      '--disable-background-timer-throttling',
+      '--disable-renderer-backgrounding',
+      '--disable-backgrounding-occluded-windows',
+      '--disable-ipc-flooding-protection',
+      '--enable-features=NetworkService,NetworkServiceLogging',
+      '--disable-features=TranslateUI',
+      '--disable-features=Translate',
+      '--disable-component-extensions-with-background-pages',
+      '--disable-features=VizDisplayCompositor',
+      '--disable-features=IsolateOrigins',
+      '--disable-site-isolation-trials',
+      '--disable-features=BlockInsecurePrivateNetworkRequests',
+      '--disable-features=OutOfBlinkCors',
+      '--disable-blink-features=AutomationControlled',
+      '--disable-dev-shm-usage',
+      '--disable-accelerated-2d-canvas',
+      '--no-zygote',
+      '--single-process',
+      '--disable-gpu',
     ],
     /**
      * Example of configuring the linkPreview generator
@@ -134,13 +154,34 @@ export default {
         '--disable-features=WebRtcLocalIpsAllowedUrls',
         '--disable-features=PrivacySandboxSettings4',
         '--disable-features=InterestCohortFeaturePolicy',
+        '--disable-dev-shm-usage',
+        '--disable-accelerated-2d-canvas',
+        '--disable-background-timer-throttling',
+        '--disable-renderer-backgrounding',
+        '--disable-backgrounding-occluded-windows',
+        '--disable-ipc-flooding-protection',
+        '--enable-features=NetworkService,NetworkServiceLogging',
+        '--disable-features=Translate',
+        '--disable-component-extensions-with-background-pages',
+        '--disable-features=VizDisplayCompositor',
+        '--disable-features=OutOfBlinkCors',
+        '--disable-blink-features=AutomationControlled'
       ],
-      headless: 'new' as const,
+      headless: true, // Temporal para debugging - cambiar a true después
+      devtools: false,
       executablePath: '/usr/bin/google-chrome-stable',
       timeout: 0,
       protocolTimeout: 0,
-      slowMo: 50,
-    },
+      slowMo: 100, // Reducir velocidad para estabilidad DOM
+      waitForInitialPage: true,
+      defaultViewport: {
+        width: 1366,
+        height: 768,
+        deviceScaleFactor: 1,
+        isMobile: false,
+        hasTouch: false,
+        isLandscape: false
+      },
     multiDevice: true,
     authTimeoutMs: 90000,
     takeoverOnConflict: true,
@@ -163,6 +204,25 @@ export default {
     },
     waitForLogin: true,
     waitForLoginTimeoutMs: 60000,
+    // Configuración de estabilidad DOM para fix de ProtocolError
+    domStability: {
+      waitForSelector: 'div[data-testid="side"]',
+      waitForTimeout: 45000,
+      waitUntil: 'networkidle2',
+      checkInterval: 200,
+      domContentLoaded: true,
+      networkIdleTimeout: 5000
+    },
+    // Configuración de retry para inyección wapi.js
+    wapiInjection: {
+      maxRetries: 5,
+      retryDelay: 3000,
+      waitForReady: true,
+      checkInterval: 500
+    },
+    // Tiempo de espera extendido para carga completa
+    loadingTimeout: 60000,
+    authTimeoutMs: 120000,
   },
   mapper: {
     enable: false,
