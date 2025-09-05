@@ -172,9 +172,10 @@ export default {
         isMobile: false,
         hasTouch: false,
         isLandscape: false
-      },
+      }
+    },
     multiDevice: true,
-    authTimeoutMs: 90000,
+    authTimeoutMs: 120000,
     takeoverOnConflict: true,
     takeoverTimeoutMs: 60000,
     cacheEnabled: false,
@@ -213,7 +214,6 @@ export default {
     },
     // Tiempo de espera extendido para carga completa
     loadingTimeout: 60000,
-    authTimeoutMs: 120000,
   },
   mapper: {
     enable: false,
