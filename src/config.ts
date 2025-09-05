@@ -241,5 +241,5 @@ export default {
     defaultBucketName: null,
     endpoint: null,
     forcePathStyle: null,
-  },
+  }
 } as unknown as ServerOptions;
